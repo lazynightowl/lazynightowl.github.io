@@ -1,0 +1,138 @@
+$(function() {
+
+    $("input,textarea").jqBootstrapValidation({
+        preventSubmit: true,
+        submitError: function($form, event, errors) {
+            // additional error messages or events
+        },
+        submitSuccess: function($form, event) {
+            event.preventDefault(); // prevent default submit behaviour
+            // get values from FORM
+            var name = $("input#name").val();
+            var email = $("input#email").val();
+            var phone = $("input#phone").val();
+            var message = $("textarea#message").val();
+            var firstName = name; // For Success/Failure Message
+            // Check for white space in name for Success/Fail message
+            if (firstName.indexOf(' ') >= 0) {
+                firstName = name.split(' ').slice(0, -1).join(' ');
+            }
+
+            console.log("Sending info message")
+            $('#success').html("<div class='alert alert-info'>");
+            $('#success > .alert-info').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#success > .alert-info')
+                .append("<strong>Sending your message...</strong>");
+            $('#success > .alert-info')
+                .append('</div>');
+
+            $.ajax({
+                type: "POST",
+                url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                data: {
+                  'key': '1eLy8qSRtPhZK-cyLAOVtw',
+                  'message': {
+                    'from_email': email,
+                    'to': [
+                        {
+                          'email': 'jamaral7@gmail.com',
+                          'name': name,
+                          'type': 'to'
+                        }
+                      ],
+                    'autotext': 'true',
+                    'subject': 'ONAMAZU '+phone,
+                    'html': message
+                    }
+                },
+                cache: false,
+                success: function() {
+                    console.log("Success message")
+                    $('#success').html("<div class='alert alert-success'>");
+                    $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                        .append("</button>");
+                    $('#success > .alert-success')
+                        .append("<strong>Your message has been sent. </strong>");
+                    $('#success > .alert-success')
+                        .append('</div>');
+
+                    //clear all fields
+                    $('#contactForm').trigger("reset");
+                },
+                error: function() {
+                    console.log("Fail message")
+                    $('#success').html("<div class='alert alert-danger'>");
+                    $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                        .append("</button>");
+                    $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!");
+                    $('#success > .alert-danger').append('</div>');
+                    //clear all fields
+                    $('#contactForm').trigger("reset");
+                },
+            })
+          },
+            filter: function() {
+                return $(this).is(":visible");
+            },
+        });
+
+
+    //         $.ajax({
+    //             url: "https://formspree.io/jamaral7@gmail.com",
+    //             type: "POST",
+    //             data: {
+    //                 name: name,
+    //                 subject: phone,
+    //                 email: email,
+    //                 message: message
+    //             },
+    //             cache: false,
+    //             success: function() {
+    //                 // Success message
+    //                 $('#success').html("<div class='alert alert-success'>");
+    //                 $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+    //                     .append("</button>");
+    //                 $('#success > .alert-success')
+    //                     .append("<strong>Your message has been sent. </strong>");
+    //                 $('#success > .alert-success')
+    //                     .append('</div>');
+    //
+    //                 //clear all fields
+    //                 $('#contactForm').trigger("reset");
+    //             },
+    //             error: function() {
+    //               $('#success').html("<div class='alert alert-success'>");
+    //               $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+    //                   .append("</button>");
+    //               $('#success > .alert-success')
+    //                   .append("<strong>Your message has been sent. </strong>");
+    //               $('#success > .alert-success')
+    //                   .append('</div>');
+    //                 // Fail message
+    //                 // $('#success').html("<div class='alert alert-danger'>");
+    //                 // $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+    //                 //     .append("</button>");
+    //                 // $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!");
+    //                 // $('#success > .alert-danger').append('</div>');
+    //                 // //clear all fields
+    //                 // $('#contactForm').trigger("reset");
+    //             },
+    //         })
+    //     },
+    //     filter: function() {
+    //         return $(this).is(":visible");
+    //     },
+    // });
+
+    $("a[data-toggle=\"tab\"]").click(function(e) {
+        e.preventDefault();
+        $(this).tab("show");
+    });
+});
+
+
+/*When clicking on Full hide fail/success boxes */
+$('#name').focus(function() {
+    $('#success').html('');
+});
