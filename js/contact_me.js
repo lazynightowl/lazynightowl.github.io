@@ -34,7 +34,6 @@ $(function() {
                     'message': message,
                     'subject': 'ONAMAZU '+phone,
                     'html': message
-                    }
                 },
                 cache: false,
                 success: function() {
