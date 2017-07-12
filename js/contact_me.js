@@ -28,20 +28,10 @@ $(function() {
                 .append('</div>');
 
             $.ajax({
-                type: "POST",
-                url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                method: "POST",
+                url: "https://formspree.io/jamaral7@gmail.com",
                 data: {
-                  'key': '1eLy8qSRtPhZK-cyLAOVtw',
-                  'message': {
-                    'from_email': email,
-                    'to': [
-                        {
-                          'email': 'jamaral7@gmail.com',
-                          'name': name,
-                          'type': 'to'
-                        }
-                      ],
-                    'autotext': 'true',
+                    'message': message,
                     'subject': 'ONAMAZU '+phone,
                     'html': message
                     }
