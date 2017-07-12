@@ -28,16 +28,17 @@ $(function() {
                 .append('</div>');
 
             $.ajax({
-                method: "POST",
                 url: "https://formspree.io/jamaral7@gmail.com",
+                type: "POST",
                 data: {
-                    'message': message,
-                    'subject': 'ONAMAZU '+phone,
-                    'html': message
+                    name: name,
+                    subject: phone,
+                    email: email,
+                    message: message
                 },
                 cache: false,
                 success: function() {
-                    console.log("Success message")
+                    // Success message
                     $('#success').html("<div class='alert alert-success'>");
                     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
@@ -50,7 +51,14 @@ $(function() {
                     $('#contactForm').trigger("reset");
                 },
                 error: function() {
-                    console.log("Fail message")
+                  $('#success').html("<div class='alert alert-success'>");
+                  $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                      .append("</button>");
+                  $('#success > .alert-success')
+                      .append("<strong>Your message has been sent. </strong>");
+                  $('#success > .alert-success')
+                      .append('</div>');
+                    // Fail message
                     $('#success').html("<div class='alert alert-danger'>");
                     $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
@@ -60,59 +68,11 @@ $(function() {
                     $('#contactForm').trigger("reset");
                 },
             })
-          },
-            filter: function() {
-                return $(this).is(":visible");
-            },
-        });
-
-
-    //         $.ajax({
-    //             url: "https://formspree.io/jamaral7@gmail.com",
-    //             type: "POST",
-    //             data: {
-    //                 name: name,
-    //                 subject: phone,
-    //                 email: email,
-    //                 message: message
-    //             },
-    //             cache: false,
-    //             success: function() {
-    //                 // Success message
-    //                 $('#success').html("<div class='alert alert-success'>");
-    //                 $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-    //                     .append("</button>");
-    //                 $('#success > .alert-success')
-    //                     .append("<strong>Your message has been sent. </strong>");
-    //                 $('#success > .alert-success')
-    //                     .append('</div>');
-    //
-    //                 //clear all fields
-    //                 $('#contactForm').trigger("reset");
-    //             },
-    //             error: function() {
-    //               $('#success').html("<div class='alert alert-success'>");
-    //               $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-    //                   .append("</button>");
-    //               $('#success > .alert-success')
-    //                   .append("<strong>Your message has been sent. </strong>");
-    //               $('#success > .alert-success')
-    //                   .append('</div>');
-    //                 // Fail message
-    //                 // $('#success').html("<div class='alert alert-danger'>");
-    //                 // $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-    //                 //     .append("</button>");
-    //                 // $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!");
-    //                 // $('#success > .alert-danger').append('</div>');
-    //                 // //clear all fields
-    //                 // $('#contactForm').trigger("reset");
-    //             },
-    //         })
-    //     },
-    //     filter: function() {
-    //         return $(this).is(":visible");
-    //     },
-    // });
+        },
+        filter: function() {
+            return $(this).is(":visible");
+        },
+    });
 
     $("a[data-toggle=\"tab\"]").click(function(e) {
         e.preventDefault();
